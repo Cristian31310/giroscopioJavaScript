@@ -4,7 +4,7 @@ let buton = document.getElementById("buton");
 
 // buton.addEventListener("click", handleClick)
 buton.addEventListener("click", () => {
-  beta.innerText = "guay";
+  beta.textContent = "guay";
 });
 
 function handleClick() {
