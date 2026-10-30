@@ -1,7 +1,11 @@
 let gamma = document.getElementById("ejeGamma");
 let beta = document.getElementById("beta");
 let buton = document.getElementById("buton");
-buton.addEventListener("click", handleClick)
+
+// buton.addEventListener("click", handleClick)
+buton.addEventListener("click", () => {
+  beta.innerText = "guay";
+});
 
 function handleClick() {
   if (typeof DeviceMotionEvent.requestPermission === "function") {
