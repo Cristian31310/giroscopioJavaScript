@@ -2,21 +2,26 @@ let gamma = document.getElementById("ejeGamma");
 let beta = document.getElementById("beta");
 let buton = document.getElementById("buton");
 buton.addEventListener("click", handleClick)
+
 function handleClick() {
-  if (typeof DeviceMotionEvent.requestPermission === 'function') {
-    // Handle iOS 13+ devices.
-    DeviceMotionEvent.requestPermission()
-      .then((state) => {
-        if (state === 'granted') {
-          window.addEventListener('devicemotion', handleOrientation);
-        } else {
-          console.error('Request to access the orientation was rejected');
-        }
-      })
-      .catch(console.error);
+  if (typeof DeviceMotionEvent.requestPermission === "function") {
+    // The API requires permission — request it
+    Promise.all([
+      DeviceMotionEvent.requestPermission(),
+      DeviceOrientationEvent.requestPermission(),
+    ]).then(([motionPermission, orientationPermission]) => {
+      if (
+        motionPermission === "granted" &&
+        orientationPermission === "granted"
+      ) {
+        window.addEventListener("devicemotion", handleMotion);
+        window.addEventListener("deviceorientation", handleOrientation);
+      }
+    });
   } else {
-    // Handle regular non iOS 13+ devices.
-    window.addEventListener('devicemotion', handleOrientation);
+    // No permission needed, add event listeners directly
+    window.addEventListener("devicemotion", handleMotion);
+    window.addEventListener("deviceorientation", handleOrientation);
   }
 }
 
